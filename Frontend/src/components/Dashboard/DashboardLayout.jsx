@@ -6,10 +6,10 @@ export default function DashboardLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
-        <div className="min-h-screen bg-[#05070F] text-white flex">
-            <Sidebar sidebarOpen={sidebarOpen} />
-            <main className="flex-1 px-10 py-8 space-y-10">
-                <Outlet context={{ sidebarOpen, setSidebarOpen }} />
+        <div className="h-screen overflow-hidden bg-white dark:bg-[#05070F] text-white flex">
+            <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+            <main className="flex-1 overflow-y-auto px-10 py-8 space-y-10">
+                <Outlet />
             </main>
         </div>
     );

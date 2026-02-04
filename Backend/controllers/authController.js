@@ -53,7 +53,7 @@ export const signup = async (req, res) => {
             password: hashedPassword,
             role: preApproved.role,
             profileImage:
-                "https://ik.imagekit.io/aniketmedia/campusconnect/images/avatar"
+                "https://ik.imagekit.io/aniketmedia/campusconnect/images/avatar1"
         });
 
         // 5. Create role-specific document
@@ -126,6 +126,7 @@ export const login = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 role: user.role,
+                course: user?.course,
                 profileImage: user.profileImage
             }
         });

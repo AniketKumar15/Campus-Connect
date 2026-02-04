@@ -7,6 +7,7 @@ import uploadrouter from "./routes/ImagekitRoute.js";
 import authRoutes from "./routes/authRoutes.js";
 import resourceRoutes from "./routes/resourceRoutes.js"
 import preApprovedUserRoutes from "./routes/preApprovedUserRoutes.js";
+import assignmentRoutes from "./routes/assignmentRoutes.js"
 
 // Configuring dotenv to load environment variables
 dotenv.config({
@@ -31,6 +32,7 @@ app.use("/api", uploadrouter);
 app.use("/api/auth", authRoutes);
 app.use("/api/resources", resourceRoutes)
 app.use("/api/preapproved", preApprovedUserRoutes);
+app.use("/api/assignments", assignmentRoutes)
 
 const PORT = process.env.PORT || 3000;
 

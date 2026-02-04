@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "./toast";
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 export const Toaster = () => {
     const [toasts, setToasts] = useState([]);
@@ -14,32 +15,47 @@ export const Toaster = () => {
                 <div
                     key={t.id}
                     className={`
-            toast toast-enter
-            pointer-events-auto
-            flex items-center gap-3
-            min-w-70 max-w-sm
-            rounded-xl px-4 py-3
-            shadow-lg shadow-black/10
-            backdrop-blur-md
-            border border-white/10
-            text-sm font-medium text-white
-            transition-transform
-            ${t.type === "success" && "bg-emerald-500/90"}
-            ${t.type === "error" && "bg-rose-500/90"}
-            ${t.type === "loading" && "bg-sky-500/90"}
-          `}
+                        pointer-events-auto
+                        flex items-start gap-3
+                        min-w-70 max-w-sm
+                        rounded-xl px-4 py-3
+                        backdrop-blur-md
+                        border-2
+                        shadow-inner shadow-white/10
+                        text-sm font-medium
+                        animate-toast-in
+
+                        ${t.type === "success" &&
+                        "bg-emerald-200/90 border-emerald-600 text-emerald-900"}
+                        ${t.type === "error" &&
+                        "bg-rose-200/90 border-rose-600 text-rose-900"}
+                        ${t.type === "loading" &&
+                        "bg-sky-200/90 border-sky-600 text-sky-900"}
+                    `}
                 >
                     {/* Icon */}
-                    {t.type === "loading" ? (
-                        <span className="h-4 w-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-                    ) : (
-                        <span className="text-lg">
-                            {t.type === "success"}
-                            {t.type === "error"}
-                        </span>
-                    )}
+                    <div className="mt-0.5">
+                        {t.type === "loading" ? (
+                            <span className="h-4 w-4 border-2 border-current/40 border-t-current rounded-full animate-spin" />
+                        ) : t.type === "success" ? (
+                            <FaCheckCircle className="text-current text-lg" />
+                        ) : (
+                            <FaTimesCircle className="text-current text-lg" />
+                        )}
+                    </div>
 
-                    <span className="flex-1">{t.message}</span>
+                    {/* Message */}
+                    <span className="flex-1 leading-snug">
+                        {t.message}
+                    </span>
+
+                    {/* Close Button */}
+                    <button
+                        onClick={() => toast.dismiss(t.id)}
+                        className="ml-2 text-current/60 hover:text-current transition"
+                    >
+                        ✕
+                    </button>
                 </div>
             ))}
         </div>

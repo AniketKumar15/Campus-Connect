@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import AuthContext from "../contexts/AuthContext/AuthContext";
+import ThemeContext from "../contexts/ThemeContext";
 import {
     FiMenu,
     FiX,
@@ -13,7 +14,7 @@ import { GoDiscussionClosed } from "react-icons/go";
 import { MdOutlineWbSunny } from "react-icons/md";
 import { IoMoonOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../assets/Logo.png";
 
 const links = [
@@ -29,28 +30,7 @@ const Nav = () => {
     const [open, setOpen] = useState(false);
     const [active, setActive] = useState("Home");
     const [moreOpen, setMoreOpen] = useState(false);
-    const [isDark, setIsDark] = useState(false);
-
-    useEffect(() => {
-        const storedTheme = localStorage.getItem("theme");
-        if (storedTheme === "dark") {
-            setIsDark(true);
-            document.documentElement.classList.add("dark");
-        }
-    }, []);
-
-    const toggleMode = () => {
-        const newTheme = !isDark;
-        setIsDark(newTheme);
-
-        if (newTheme) {
-            document.documentElement.classList.add("dark");
-            localStorage.setItem("theme", "dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-            localStorage.setItem("theme", "light");
-        }
-    };
+    const { isDark, toggleTheme } = useContext(ThemeContext);
 
 
     const linkClasses = (name) =>
@@ -150,7 +130,7 @@ const Nav = () => {
 
                                 </>)
                             }
-                            <button onClick={toggleMode}>
+                            <button onClick={toggleTheme}>
                                 {isDark ? (
                                     <MdOutlineWbSunny className="text-yellow-400 text-xl" />
                                 ) : (

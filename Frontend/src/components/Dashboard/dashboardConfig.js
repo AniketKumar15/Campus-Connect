@@ -3,9 +3,11 @@ import {
     FiBookOpen,
     FiEdit,
     FiUser,
-    FiClock,
-    FiUsers
+    FiUsers,
+    FiChevronDown,
+    FiClipboard
 } from "react-icons/fi";
+import { MdAssignmentTurnedIn } from "react-icons/md";
 
 export const DASHBOARD_CONFIG = {
     student: {
@@ -23,7 +25,25 @@ export const DASHBOARD_CONFIG = {
         nav: [
             { label: "Dashboard", icon: FiHome, path: "/dashboard" },
             { label: "Resources", icon: FiBookOpen, path: "/dashboard/my-resources" },
-            { label: "Blogs", icon: FiEdit, path: "/dashboard/blogs" },
+
+            {
+                label: "Assignments",
+                icon: FiClipboard,
+                children: [
+                    {
+                        label: "Create Assignment",
+                        icon: MdAssignmentTurnedIn,
+                        path: "/dashboard/create-assignment",
+                    },
+                    {
+                        label: "My Assignments",
+                        icon: MdAssignmentTurnedIn,
+                        path: "/dashboard/my-assignments",
+                    },
+                ],
+            },
+
+            { label: "Blogs", icon: FiEdit, path: "/dashboard/add-blog" },
             { label: "Profile", icon: FiUser, path: "/dashboard/profile" },
         ],
     },

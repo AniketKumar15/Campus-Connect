@@ -15,9 +15,6 @@ import ResourceContext from "../../contexts/ResourceContext/ResourceContext";
 import AuthContext from "../../contexts/AuthContext/AuthContext";
 
 /* ================= CONSTANTS ================= */
-const COURSES = ["BCA", "MCA", "BBA", "MBA"];
-const CATEGORIES = ["notes", "pyq", "reference"];
-const SEMESTERS = [1, 2, 3, 4, 5, 6];
 const EMPTY_FORM = {
     title: "",
     description: "",
@@ -71,7 +68,8 @@ const StatusBadge = ({ status }) => {
 /* ================= MODAL ================= */
 const Modal = ({ title, onClose, children }) => (
     <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center
+      bg-black/70 backdrop-blur-sm"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -81,62 +79,76 @@ const Modal = ({ title, onClose, children }) => (
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.96, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="w-full max-w-xl rounded-2xl bg-linear-to-b from-slate-900 to-slate-950 border border-white/10 shadow-2xl"
+            className="w-full max-w-xl rounded-2xl
+        bg-white dark:bg-slate-900
+        border border-slate-200 dark:border-white/10
+        shadow-2xl"
         >
-            {/* HEADER */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-                <h2 className="text-lg font-semibold text-white">{title}</h2>
-                <button onClick={onClose} className="text-slate-400 hover:text-white">
+            <div className="flex items-center justify-between px-6 py-4
+        border-b border-slate-200 dark:border-white/10">
+                <h2 className="text-lg font-semibold text-slate-800 dark:text-white">
+                    {title}
+                </h2>
+                <button
+                    onClick={onClose}
+                    className="text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"
+                >
                     ✕
                 </button>
             </div>
 
-            {/* BODY */}
             <div className="px-6 py-5">{children}</div>
         </motion.div>
     </motion.div>
 );
 const FileUpload = ({ file, onChange }) => (
-    <label className="group cursor-pointer">
-        <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-white/20 bg-white/5 px-4 py-6 text-center hover:bg-white/10 transition">
-            <div className="text-cyan-400 text-2xl">📄</div>
+    <label className="cursor-pointer">
+        <div className="flex flex-col items-center justify-center gap-2 rounded-xl
+      border border-dashed border-slate-300 dark:border-white/20
+      bg-slate-100 dark:bg-white/5
+      px-4 py-6 text-center
+      hover:bg-slate-200 dark:hover:bg-white/10 transition">
+            <div className="text-cyan-500 dark:text-cyan-400 text-2xl">📄</div>
 
             {!file ? (
                 <>
-                    <p className="text-sm text-white font-medium">
+                    <p className="text-sm font-medium text-slate-800 dark:text-white">
                         Drag & drop your file here
                     </p>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                         PDF, PPT, Image or Document
                     </p>
                 </>
             ) : (
                 <>
-                    <p className="text-sm text-white font-medium">{file.name}</p>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-sm font-medium text-slate-800 dark:text-white">
+                        {file.name}
+                    </p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
                         {(file.size / 1024 / 1024).toFixed(2)} MB
                     </p>
                 </>
             )}
         </div>
 
-        <input
-            type="file"
-            name="file"
-            className="hidden"
-            onChange={onChange}
-        />
+        <input type="file" name="file" className="hidden" onChange={onChange} />
     </label>
 );
 
 
 /* ================= FORM ================= */
 const inputBase =
-    "w-full rounded-lg bg-slate-800 border border-white/10 px-3 py-2 text-sm text-white focus:ring-2 focus:ring-cyan-500 outline-none";
+    "w-full rounded-lg px-3 py-2 text-sm outline-none " +
+    "bg-slate-100 dark:bg-slate-800 " +
+    "border border-slate-300 dark:border-white/10 " +
+    "text-slate-800 dark:text-white " +
+    "focus:ring-2 focus:ring-cyan-500";
 
 const Field = ({ label, children }) => (
     <div className="space-y-1.5">
-        <label className="text-xs font-medium text-slate-400">{label}</label>
+        <label className="text-xs font-medium text-slate-600 dark:text-slate-400">
+            {label}
+        </label>
         {children}
     </div>
 );
@@ -220,19 +232,13 @@ const ResourceForm = ({ form, onChange, onSubmit, onClose }) => (
         </Field>
 
         {/* FOOTER */}
-        <div className="flex justify-end gap-3 pt-5 border-t border-white/10">
-            <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 text-slate-300 hover:text-white"
-            >
+        <div className="flex justify-end gap-3 pt-5 border-t border-slate-200 dark:border-white/10">
+            <button type="button" onClick={onClose}
+                className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
                 Cancel
             </button>
-
-            <button
-                type="submit"
-                className="px-5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-white font-medium"
-            >
+            <button type="submit"
+                className="px-5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-white font-medium">
                 Save Resource
             </button>
         </div>
@@ -317,26 +323,26 @@ export default function UserResources() {
         <div className="px-8 pt-8">
             <div className="flex items-center justify-between mb-6">
                 <div>
-                    <h1 className="text-2xl font-semibold text-white">Resources</h1>
-                    <p className="text-sm text-slate-400">Manage your uploaded study material</p>
+                    <h1 className="text-2xl font-semibold text-slate-800 dark:text-white">Resources</h1>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">Manage your uploaded study material</p>
                 </div>
 
                 <button
                     onClick={openAddModal}
-                    className="flex items-center gap-2 px-4 py-2 bg-cyan-500 text-white rounded-md"
+                    className="flex items-center gap-2 px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded-md"
                 >
                     <FiPlus /> Upload Resource
                 </button>
             </div>
 
-            <div className="bg-slate-900/60 border border-white/10 rounded-xl divide-y divide-white/10">
+            <div className="bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/10 rounded-xl divide-y divide-white/10">
                 {resources.map((r) => (
-                    <div key={r._id} className="flex items-center justify-between px-4 py-3 hover:bg-white/5">
+                    <div key={r._id} className="flex items-center justify-between px-4 py-3 hover:bg-slate-100 dark:hover:bg-white/5">
                         <div className="flex items-center gap-4">
                             <FileIcon type={getFileType(r.fileUrl)} />
                             <div>
-                                <p className="text-white font-medium">{r.title}</p>
-                                <p className="text-xs text-slate-400">
+                                <p className="text-slate-800 dark:text-white font-medium">{r.title}</p>
+                                <p className="text-xs text-slate-800 dark:text-white">
                                     {r.course} • Sem {r.semester} • {r.category}
                                 </p>
                             </div>
