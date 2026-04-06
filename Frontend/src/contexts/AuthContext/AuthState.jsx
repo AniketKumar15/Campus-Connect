@@ -9,9 +9,7 @@ const AuthState = (props) => {
     const [token, setToken] = useState(localStorage.getItem("token"));
     const [loading, setLoading] = useState(true);
 
-    /* =========================
-       LOAD USER (ON REFRESH)
-    ========================== */
+
     const loadUser = async () => {
         if (!token) {
             setLoading(false);
@@ -102,6 +100,35 @@ const AuthState = (props) => {
     };
 
     /* =========================
+       UPDATE PROFILE
+    ========================== */
+    const updateProfile = async (formData) => {
+        try {
+            const res = await fetch(`${hostUrl}/api/auth/profile`, {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                body: formData,
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                toast.error(data.message || "Failed to update profile");
+                return false;
+            }
+
+            setUser(data.user);
+            toast.success(data.message || "Profile updated successfully");
+            return true;
+        } catch (error) {
+            toast.error("Something went wrong");
+            return false;
+        }
+    };
+
+    /* =========================
        LOGOUT
     ========================== */
     const logout = () => {
@@ -128,6 +155,7 @@ const AuthState = (props) => {
                 login,
                 signup,
                 logout,
+                updateProfile,
                 isAuthenticated: !!user,
             }}
         >

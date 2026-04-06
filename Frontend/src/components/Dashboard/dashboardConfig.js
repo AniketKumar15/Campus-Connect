@@ -15,7 +15,30 @@ export const DASHBOARD_CONFIG = {
         nav: [
             { label: "Dashboard", icon: FiHome, path: "/dashboard" },
             { label: "Resources", icon: FiBookOpen, path: "/dashboard/my-resources" },
-            { label: "Blogs", icon: FiEdit, path: "/dashboard/add-blog" },
+            {
+                label: "Assignments",
+                icon: FiClipboard,
+                children: [
+                    {
+                        label: "Assignment",
+                        icon: MdAssignmentTurnedIn,
+                        path: "/dashboard/assignments",
+                    },
+                    {
+                        label: "My Submission",
+                        icon: MdAssignmentTurnedIn,
+                        path: "/dashboard/my-submission",
+                    },
+                ],
+            },
+            {
+                label: "Campus Insights",
+                icon: FiEdit,
+                children: [
+                    { label: "Add Insights", icon: FiEdit, path: "/dashboard/add-insights" },
+                    { label: "My Insights", icon: FiEdit, path: "/dashboard/my-insights" },
+                ]
+            },
             { label: "Profile", icon: FiUser, path: "/dashboard/profile" },
         ],
     },
@@ -38,12 +61,19 @@ export const DASHBOARD_CONFIG = {
                     {
                         label: "My Assignments",
                         icon: MdAssignmentTurnedIn,
-                        path: "/dashboard/my-assignments",
+                        path: "/dashboard/assignments",
                     },
                 ],
             },
 
-            { label: "Blogs", icon: FiEdit, path: "/dashboard/add-blog" },
+            {
+                label: "Campus Insights",
+                icon: FiEdit,
+                children: [
+                    { label: "Add Insights", icon: FiEdit, path: "/dashboard/add-insights" },
+                    { label: "My Insights", icon: FiEdit, path: "/dashboard/my-insights" },
+                ]
+            },
             { label: "Profile", icon: FiUser, path: "/dashboard/profile" },
         ],
     },
@@ -53,7 +83,24 @@ export const DASHBOARD_CONFIG = {
         nav: [
             { label: "Overview", icon: FiHome, path: "/dashboard" },
             { label: "Approval", icon: FiHome, path: "/dashboard/approval" },
+            { label: "Insight Approval", icon: FiHome, path: "/dashboard/insight-approval" },
             { label: "Users", icon: FiUsers, path: "/dashboard/all-user" },
+            {
+                label: "All Assignments",
+                icon: FiClipboard,
+                children: [
+                    {
+                        label: "All Assignments",
+                        icon: MdAssignmentTurnedIn,
+                        path: "/dashboard/all-assigment",
+                    },
+                    {
+                        label: "All Submission",
+                        icon: MdAssignmentTurnedIn,
+                        path: "/dashboard/all-submission",
+                    },
+                ],
+            },
             { label: "Profile", icon: FiUser, path: "/dashboard/profile" },
         ],
     },

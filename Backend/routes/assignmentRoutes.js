@@ -5,12 +5,16 @@ import {
     getAssignmentsByTeacher,
     getAssignmentById,
     deleteAssignment,
+    getAllAssignments,
 } from "../controllers/assignmentController.js";
 
 import { protect, authorizeRoles } from "../middleware/authMiddleware.js";
 import { upload } from "../middleware/multer.js";
 
 const router = express.Router();
+
+router.get("/all", getAllAssignments);
+
 
 /**
  * ===============================
@@ -22,7 +26,7 @@ const router = express.Router();
 router.post(
     "/",
     protect,
-    authorizeRoles("faculty"),
+    authorizeRoles("faculty", "admin"),
     upload.single("file"),
     createAssignment
 );
@@ -31,7 +35,7 @@ router.post(
 router.get(
     "/faculty",
     protect,
-    authorizeRoles("faculty"),
+    authorizeRoles("faculty", "admin"),
     getAssignmentsByTeacher
 );
 
@@ -39,7 +43,7 @@ router.get(
 router.delete(
     "/:id",
     protect,
-    authorizeRoles("faculty"),
+    authorizeRoles("faculty", "admin"),
     deleteAssignment
 );
 
@@ -53,21 +57,20 @@ router.delete(
 router.get(
     "/student",
     protect,
-    authorizeRoles("student"),
+    authorizeRoles("student", "admin"),
     getAssignmentsForStudent
 );
 
 /**
  * ===============================
- * COMMON ROUTE
+ * COMMON ROUTE (DETAIL PAGE)
  * ===============================
+ * Must be last, otherwise it will conflict with admin/faculty/student routes
  */
-
-// Assignment detail page (student + teacher)
 router.get(
     "/:id",
     protect,
-    authorizeRoles("student", "faculty"),
+    authorizeRoles("student", "faculty", "admin"),
     getAssignmentById
 );
 

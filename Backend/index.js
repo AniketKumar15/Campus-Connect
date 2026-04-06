@@ -8,6 +8,11 @@ import authRoutes from "./routes/authRoutes.js";
 import resourceRoutes from "./routes/resourceRoutes.js"
 import preApprovedUserRoutes from "./routes/preApprovedUserRoutes.js";
 import assignmentRoutes from "./routes/assignmentRoutes.js"
+import submissionRoutes from "./routes/submissionRoutes.js";
+import campusInsightRoutes from "./routes/campusInsightRoutes.js";
+import studentDashboardRoutes from "./routes/studentDashboardRoutes.js";
+import adminDashboardRoutes from "./routes/adminDashboardRoutes.js";
+import facultyDashboardRoutes from "./routes/facultyDashboardRoutes.js";
 
 // Configuring dotenv to load environment variables
 dotenv.config({
@@ -33,6 +38,12 @@ app.use("/api/auth", authRoutes);
 app.use("/api/resources", resourceRoutes)
 app.use("/api/preapproved", preApprovedUserRoutes);
 app.use("/api/assignments", assignmentRoutes)
+app.use("/api/submissions", submissionRoutes);
+app.use("/api/campus-insights", campusInsightRoutes);
+app.use("/api/student-dashboard", studentDashboardRoutes);
+app.use("/api/admin-dashboard", adminDashboardRoutes);
+app.use("/api/dashboard", facultyDashboardRoutes);
+
 
 const PORT = process.env.PORT || 3000;
 

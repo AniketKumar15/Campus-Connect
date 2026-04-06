@@ -24,7 +24,7 @@ router.post(
 );
 
 router.get(
-    "/my/:assignmentId",
+    "/my-submission",
     protect,
     authorizeRoles("student"),
     getMySubmission

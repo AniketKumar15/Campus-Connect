@@ -1,5 +1,7 @@
 import Assignment from "../models/Assignment.js";
 import { uploadOnImageKit } from "../utils/Imagekit.js";
+import Student from "../models/Student.js";
+import Submission from "../models/Submission.js";
 
 /**
  * ===============================
@@ -62,6 +64,23 @@ export const createAssignment = async (req, res) => {
     }
 };
 
+export const getAllAssignments = async (req, res) => {
+    try {
+        const assignments = await Assignment.find()
+            .populate("teacherId", "name email") // add teacher info
+            .sort({ createdAt: -1 })
+            .select("-__v"); // remove unnecessary field
+
+        res.status(200).json({
+            success: true,
+            count: assignments.length,
+            assignments,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
 
 /**
  * ===============================
@@ -71,12 +90,14 @@ export const createAssignment = async (req, res) => {
  */
 export const getAssignmentsForStudent = async (req, res) => {
     try {
-        const { course } = req.user;
+        const student = await Student
+            .findOne({ user: req.user.id })
+            .select("course");
 
-        const assignments = await Assignment.find({
-            course,
-        }).sort({ createdAt: -1 });
-
+        if (!student) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+        const assignments = await Assignment.find({ course: student.course }).sort({ createdAt: -1 });
         res.status(200).json(assignments);
     } catch (error) {
         res.status(500).json({ message: "Server error" });
@@ -106,6 +127,7 @@ export const getAssignmentsByTeacher = async (req, res) => {
  * (Student & Teacher)
  * ===============================
  */
+
 export const getAssignmentById = async (req, res) => {
     try {
         const assignment = await Assignment.findById(req.params.id)
@@ -115,11 +137,30 @@ export const getAssignmentById = async (req, res) => {
             return res.status(404).json({ message: "Assignment not found" });
         }
 
-        const isDeadlinePassed = new Date() > new Date(assignment.deadline);
+        const isDeadlinePassed =
+            new Date() > new Date(assignment.deadline);
+
+        let alreadySubmitted = false;
+        let submissionMessage = null;
+
+        // Check submission only if student is logged in
+        if (req.user?.role === "student") {
+            const submission = await Submission.findOne({
+                assignmentId: assignment._id,
+                studentId: req.user.id,
+            });
+
+            if (submission) {
+                alreadySubmitted = true;
+                submissionMessage = "Already Submitted";
+            }
+        }
 
         res.status(200).json({
             assignment,
             isDeadlinePassed,
+            alreadySubmitted,
+            message: submissionMessage,
         });
     } catch (error) {
         res.status(500).json({ message: "Server error" });
@@ -149,3 +190,4 @@ export const deleteAssignment = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+

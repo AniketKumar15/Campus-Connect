@@ -59,20 +59,26 @@ const Home = () => {
     };
 
     return (
-        <div className="pt-28 overflow-x-hidden">
+        <div className="pt-28 overflow-x-hidden bg-[#eef2f6] min-h-screen font-sans text-slate-800 relative z-0">
+
+            {/* Grid Pattern Background */}
+            <div className="fixed inset-0 -z-10 pointer-events-none">
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:30px_30px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]">
+                </div>
+            </div>
             <section
                 className="relative px-6"
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
             >
-                {/* Background Orbs */}
+                {/* Ambient Light Sources */}
                 <motion.div
                     style={{ y: orbY, x: mouseX }}
-                    className="absolute -top-40 left-1/2 -translate-x-1/2 h-105 w-105 rounded-full bg-sky-400/30 blur-[140px]"
+                    className="absolute -top-40 left-0 h-[600px] w-[600px] rounded-full bg-white/60 blur-[100px] pointer-events-none"
                 />
                 <motion.div
                     style={{ y: orbY, x: mouseY }}
-                    className="absolute top-40 left-1/4 h-75 w-75 rounded-full bg-indigo-400/30 blur-[120px]"
+                    className="absolute top-40 right-0 h-[500px] w-[500px] rounded-full bg-slate-300/40 blur-[100px] pointer-events-none"
                 />
 
                 {/* Content */}
@@ -82,25 +88,24 @@ const Home = () => {
                     animate="visible"
                     variants={fadeUp}
                     transition={{ duration: 0.8 }}
-                    className="relative mx-auto max-w-6xl text-center"
+                    className="relative mx-auto max-w-6xl text-center h-screen"
                 >
-                    <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                    <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-800 drop-shadow-sm">
                         A Unified Digital Platform for
-                        <span className="block mt-3 text-transparent bg-clip-text bg-linear-to-r from-sky-400 to-indigo-500">
+                        <span className="block mt-3 text-blue-700">
                             Campus Collaboration
                         </span>
                     </h1>
 
-                    <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-600 dark:text-white/70">
+                    <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-600 font-medium">
                         Campus Connect digitizes academic communication, learning resources,
-                        and campus activities into one modern, role-based system.
+                        and campus activities into one tactile, role-based system.
                     </p>
 
-                    <div className="mt-10 flex justify-center gap-4">
+                    <div className="mt-10 flex justify-center gap-6">
                         <motion.button
-                            whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="rounded-xl bg-linear-to-r from-sky-500 to-indigo-500 px-7 py-3 text-white font-medium shadow-lg"
+                            className="rounded-xl bg-gradient-to-b from-blue-500 to-blue-700 px-8 py-3 text-white font-bold shadow-[0_8px_15px_rgba(0,0,0,0.2),inset_0_2px_0_rgba(255,255,255,0.3)] border-b-4 border-blue-800 active:border-b-0 active:translate-y-1 transition-all"
                         >
                             Go to Dashboard
                         </motion.button>
@@ -110,8 +115,7 @@ const Home = () => {
                                     .getElementById("features")
                                     .scrollIntoView({ behavior: "smooth" })
                             }
-                            whileHover={{ scale: 1.05 }}
-                            className="rounded-xl border border-slate-300 dark:border-white/20 px-7 py-3 text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition"
+                            className="rounded-xl bg-gradient-to-b from-slate-100 to-slate-300 px-8 py-3 text-slate-700 font-bold shadow-[0_5px_10px_rgba(0,0,0,0.15),inset_0_2px_0_rgba(255,255,255,0.8)] border-b-4 border-slate-400 active:border-b-0 active:translate-y-1 transition-all"
                         >
                             Learn More
                         </motion.button>
@@ -121,13 +125,13 @@ const Home = () => {
 
 
             {/* WHO IT'S FOR */}
-            <section className="mt-28 px-6" id="features">
+            <section className="mt-32 px-6" id="features">
                 <div className="mx-auto max-w-6xl">
-                    <h2 className="text-3xl font-semibold text-center text-slate-900 dark:text-white">
+                    <h2 className="text-3xl font-bold text-center text-slate-800 drop-shadow-sm">
                         Designed for Your Campus
                     </h2>
 
-                    <div className="mt-14 grid gap-6 md:grid-cols-3">
+                    <div className="mt-14 grid gap-8 md:grid-cols-3">
                         {["Students", "Faculty", "Institution"].map((role, i) => (
                             <motion.div
                                 key={role}
@@ -136,13 +140,13 @@ const Home = () => {
                                 whileInView="visible"
                                 viewport={{ once: false, amount: 0.3 }}
                                 transition={{ delay: i * 0.15, duration: 0.6 }}
-                                whileHover={{ y: -8 }}
-                                className="rounded-2xl bg-white/70 dark:bg-black/50 backdrop-blur-xl border border-black/10 dark:border-white/10 p-6 shadow-sm"
+                                className="rounded-2xl bg-slate-200 border-t border-l border-white p-8 shadow-[8px_12px_20px_rgba(0,0,0,0.1),inset_-2px_-2px_6px_rgba(0,0,0,0.05),inset_2px_2px_6px_rgba(255,255,255,0.7)]"
                             >
-                                <h3 className="text-xl font-semibold text-slate-900 dark:text-white">
+                                <h3 className="text-xl font-bold text-slate-800">
                                     {role}
                                 </h3>
-                                <p className="mt-2 text-sm text-slate-600 dark:text-white/70">
+                                <div className="mt-3 h-[2px] w-12 bg-slate-300 rounded shadow-[inset_0_1px_1px_rgba(0,0,0,0.2)]"></div>
+                                <p className="mt-4 text-sm font-medium text-slate-600 leading-relaxed">
                                     {role === "Students" &&
                                         "Access academic resources, events, and communication in one place."}
                                     {role === "Faculty" &&
@@ -157,13 +161,13 @@ const Home = () => {
             </section>
 
             {/* FEATURES */}
-            <section className="mt-28 px-6">
+            <section className="mt-32 px-6">
                 <div className="mx-auto max-w-6xl">
-                    <h2 className="text-3xl font-semibold text-center text-slate-900 dark:text-white">
+                    <h2 className="text-3xl font-bold text-center text-slate-800 drop-shadow-sm">
                         Core Capabilities
                     </h2>
 
-                    <div className="mt-14 grid gap-6 md:grid-cols-2">
+                    <div className="mt-14 grid gap-8 md:grid-cols-2">
                         {features.map(({ title, desc, icon: Icon }, i) => (
                             <motion.div
                                 key={title}
@@ -172,17 +176,16 @@ const Home = () => {
                                 whileInView="visible"
                                 viewport={{ once: false, amount: 0.3 }}
                                 transition={{ delay: i * 0.15, duration: 0.6 }}
-                                whileHover={{ scale: 1.02 }}
-                                className="flex gap-4 rounded-2xl bg-white/70 dark:bg-black/50 backdrop-blur-xl border border-black/10 dark:border-white/10 p-6"
+                                className="flex gap-6 rounded-2xl bg-slate-200 border-t border-l border-white p-6 shadow-[8px_12px_20px_rgba(0,0,0,0.1),inset_-2px_-2px_6px_rgba(0,0,0,0.05),inset_2px_2px_6px_rgba(255,255,255,0.7)]"
                             >
-                                <div className="h-12 w-24 md:w-12 flex items-center justify-center rounded-xl bg-linear-to-r from-sky-500 to-indigo-500 text-white">
-                                    <Icon size={22} />
+                                <div className="h-14 w-14 flex-shrink-0 flex items-center justify-center rounded-xl bg-gradient-to-br from-slate-700 to-slate-900 text-slate-200 shadow-[inset_0_2px_6px_rgba(0,0,0,0.6),0_4px_6px_rgba(0,0,0,0.2)] border border-slate-600">
+                                    <Icon size={24} />
                                 </div>
-                                <div>
-                                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                                <div className="flex flex-col justify-center">
+                                    <h3 className="text-lg font-bold text-slate-800">
                                         {title}
                                     </h3>
-                                    <p className="mt-1 text-sm text-slate-600 dark:text-white/70">
+                                    <p className="mt-2 text-sm font-medium text-slate-600">
                                         {desc}
                                     </p>
                                 </div>
@@ -193,24 +196,24 @@ const Home = () => {
             </section>
 
             {/* CTA */}
-            <section className="mt-28 px-6 pb-0">
+            <section className="mt-32 px-6 pb-20">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: false, amount: 0.4 }}
                     transition={{ duration: 0.6 }}
-                    className="mx-auto max-w-5xl rounded-3xl bg-linear-to-r from-sky-500 to-indigo-500 p-12 text-center text-white shadow-xl"
+                    className="mx-auto max-w-5xl rounded-3xl bg-gradient-to-br from-slate-200 to-slate-400 p-12 text-center shadow-[15px_25px_40px_rgba(0,0,0,0.15),inset_-4px_-4px_10px_rgba(0,0,0,0.1),inset_4px_4px_15px_rgba(255,255,255,0.8)] border-t border-l border-white/80"
                 >
-                    <h2 className="text-3xl font-semibold">
+                    <h2 className="text-3xl font-bold text-slate-800 drop-shadow-sm">
                         Built Specifically for Your College
                     </h2>
-                    <p className="mt-4 text-white/90">
-                        Simplify academic collaboration with a modern, unified digital experience.
+                    <p className="mt-4 text-slate-700 font-medium">
+                        Simplify academic collaboration with a modern, tactile digital experience.
                     </p>
 
                     <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        className="mt-8 rounded-xl bg-white px-7 py-3 font-medium text-slate-900"
+                        whileTap={{ scale: 0.95 }}
+                        className="mt-8 rounded-xl bg-gradient-to-b from-blue-500 to-blue-700 px-8 py-3 text-white font-bold shadow-[0_8px_15px_rgba(0,0,0,0.3),inset_0_2px_0_rgba(255,255,255,0.3)] border-b-4 border-blue-800 active:border-b-0 active:translate-y-1 transition-all"
                     >
                         Enter Platform
                     </motion.button>

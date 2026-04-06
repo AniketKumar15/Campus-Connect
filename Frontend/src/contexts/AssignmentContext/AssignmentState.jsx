@@ -8,9 +8,7 @@ const AssignmentState = ({ children }) => {
     const [assignments, setAssignments] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // ===============================
-    // CREATE ASSIGNMENT (FACULTY)
-    // ===============================
+    // Create Assigment By the Faculty
     const createAssignment = async (formData, token) => {
         try {
             const res = await fetch(`${hostUrl}/api/assignments`, {
@@ -34,9 +32,7 @@ const AssignmentState = ({ children }) => {
         }
     };
 
-    // ===============================
-    // GET ASSIGNMENTS (STUDENT)
-    // ===============================
+    // Get Assignments only for specifice student
     const getAssignmentsForStudent = async (token) => {
         setLoading(true);
         try {
@@ -58,9 +54,7 @@ const AssignmentState = ({ children }) => {
         }
     };
 
-    // ===============================
-    // GET ASSIGNMENTS (FACULTY)
-    // ===============================
+    // Get specific Teacher Assigemnt
     const getAssignmentsByTeacher = async (token) => {
         setLoading(true);
         try {
@@ -82,9 +76,31 @@ const AssignmentState = ({ children }) => {
         }
     };
 
-    // ===============================
-    // GET SINGLE ASSIGNMENT
-    // ===============================
+    const getAllAssignmentsAdmin = async (token) => {
+        setLoading(true);
+        try {
+            const res = await fetch(`${hostUrl}/api/assignments/all`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message || "Failed to fetch all assignments");
+            }
+            setAssignments(data.assignments);
+
+        } catch (error) {
+            toast.error(error.message);
+            setAssignments(null);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Get one particuler assigement
     const getAssignmentById = async (id, token) => {
         try {
             const res = await fetch(`${hostUrl}/api/assignments/${id}`, {
@@ -103,9 +119,7 @@ const AssignmentState = ({ children }) => {
         }
     };
 
-    // ===============================
-    // DELETE ASSIGNMENT (FACULTY)
-    // ===============================
+    // Delete Assigemnt
     const deleteAssignment = async (id, token) => {
         try {
             const res = await fetch(`${hostUrl}/api/assignments/${id}`, {
@@ -136,6 +150,7 @@ const AssignmentState = ({ children }) => {
                 getAssignmentsByTeacher,
                 getAssignmentById,
                 deleteAssignment,
+                getAllAssignmentsAdmin,
             }}
         >
             {children}

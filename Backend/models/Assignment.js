@@ -33,7 +33,7 @@ const assignmentSchema = new mongoose.Schema(
         },
         teacherId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Faculty",
+            ref: "User",
             required: true
         },
         deadline: {

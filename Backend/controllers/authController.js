@@ -143,9 +143,26 @@ export const getUserDetails = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
+
+        let roleData = null;
+        if (user.role === "student") {
+            roleData = await Student.findOne({ user: userId });
+        } else if (user.role === "faculty") {
+            roleData = await Faculty.findOne({ user: userId });
+        } else if (user.role === "admin") {
+            roleData = await Admin.findOne({ user: userId });
+        }
+
+        const mergedUser = {
+            ...user.toObject(),
+            ...((roleData && roleData.toObject) ? roleData.toObject() : roleData)
+        };
+
+        if (mergedUser.user) delete mergedUser.user;
+
         res.status(200).json({
             success: true,
-            user
+            user: mergedUser
         });
     } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });

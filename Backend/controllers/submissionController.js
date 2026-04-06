@@ -1,6 +1,10 @@
+import mongoose from "mongoose";
 import Submission from "../models/Submission.js";
 import Assignment from "../models/Assignment.js";
-import { uploadOnImageKit } from "../utils/Imagekit.js";
+import {
+    uploadOnImageKit,
+    deleteOnImageKit,
+} from "../utils/Imagekit.js";
 
 /**
  * ===============================
@@ -8,11 +12,19 @@ import { uploadOnImageKit } from "../utils/Imagekit.js";
  * ===============================
  */
 export const submitAssignment = async (req, res) => {
+    let uploadedFile = null;
+
     try {
         const { assignmentId } = req.body;
 
+        if (!mongoose.Types.ObjectId.isValid(assignmentId)) {
+            return res.status(400).json({ message: "Invalid assignment ID" });
+        }
+
         if (!req.file) {
-            return res.status(400).json({ message: "Submission file is required" });
+            return res
+                .status(400)
+                .json({ message: "Submission file is required" });
         }
 
         const assignment = await Assignment.findById(assignmentId);
@@ -21,12 +33,26 @@ export const submitAssignment = async (req, res) => {
             return res.status(404).json({ message: "Assignment not found" });
         }
 
-        // ❌ Deadline check
+        // Deadline check
         if (new Date() > new Date(assignment.deadline)) {
-            return res.status(400).json({ message: "Submission deadline has passed" });
+            return res
+                .status(400)
+                .json({ message: "Submission deadline has passed" });
         }
 
-        const uploadedFile = await uploadOnImageKit(req.file);
+        // Prevent duplicate submission
+        const existingSubmission = await Submission.findOne({
+            assignmentId,
+            studentId: req.user.id,
+        });
+        if (existingSubmission) {
+            return res.status(400).json({
+                message: "You have already submitted this assignment",
+            });
+        }
+
+        // Upload file
+        uploadedFile = await uploadOnImageKit(req.file);
 
         if (!uploadedFile) {
             return res.status(500).json({ message: "File upload failed" });
@@ -45,11 +71,11 @@ export const submitAssignment = async (req, res) => {
             submission,
         });
     } catch (error) {
-        // Duplicate submission (unique index)
-        if (error.code === 11000) {
-            return res.status(400).json({
-                message: "You have already submitted this assignment",
-            });
+        console.error(error);
+
+        // cleanup uploaded file if DB fails
+        if (uploadedFile?.fileId) {
+            await deleteOnImageKit(uploadedFile.fileId);
         }
 
         res.status(500).json({ message: "Server error" });
@@ -58,12 +84,16 @@ export const submitAssignment = async (req, res) => {
 
 /**
  * ===============================
- * GET ALL SUBMISSIONS (Teacher)
+ * GET SUBMISSIONS BY ASSIGNMENT
  * ===============================
  */
 export const getSubmissionsByAssignment = async (req, res) => {
     try {
         const { assignmentId } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(assignmentId)) {
+            return res.status(400).json({ message: "Invalid assignment ID" });
+        }
 
         const assignment = await Assignment.findById(assignmentId);
 
@@ -71,9 +101,9 @@ export const getSubmissionsByAssignment = async (req, res) => {
             return res.status(404).json({ message: "Assignment not found" });
         }
 
-        // Teacher can only see their own assignment submissions
+        // faculty can only view own assignments
         if (
-            req.user.role === "teacher" &&
+            req.user.role === "faculty" &&
             assignment.teacherId.toString() !== req.user.id
         ) {
             return res.status(403).json({ message: "Access denied" });
@@ -85,6 +115,7 @@ export const getSubmissionsByAssignment = async (req, res) => {
 
         res.status(200).json(submissions);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: "Server error" });
     }
 };
@@ -96,28 +127,36 @@ export const getSubmissionsByAssignment = async (req, res) => {
  */
 export const getMySubmission = async (req, res) => {
     try {
-        const { assignmentId } = req.params;
-
-        const submission = await Submission.findOne({
-            assignmentId,
+        const submissions = await Submission.find({
             studentId: req.user.id,
-        });
+        }).populate("assignmentId"); // important
 
-        res.status(200).json(submission); // can be null
+        if (!submissions) {
+            return res
+                .status(404)
+                .json({ message: "Submission not found" });
+        }
+
+        res.status(200).json(submissions);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: "Server error" });
     }
 };
 
 /**
  * ===============================
- * REVIEW SUBMISSION (Teacher)
+ * REVIEW SUBMISSION (Faculty)
  * ===============================
  */
 export const reviewSubmission = async (req, res) => {
     try {
         const { submissionId } = req.params;
         const { feedback } = req.body;
+
+        if (!mongoose.Types.ObjectId.isValid(submissionId)) {
+            return res.status(400).json({ message: "Invalid submission ID" });
+        }
 
         const submission = await Submission.findById(submissionId)
             .populate("assignmentId");
@@ -126,7 +165,7 @@ export const reviewSubmission = async (req, res) => {
             return res.status(404).json({ message: "Submission not found" });
         }
 
-        // Teacher ownership check
+        // ownership check
         if (
             submission.assignmentId.teacherId.toString() !== req.user.id
         ) {
@@ -135,6 +174,8 @@ export const reviewSubmission = async (req, res) => {
 
         submission.feedback = feedback;
         submission.status = "reviewed";
+        submission.reviewedAt = new Date();
+
         await submission.save();
 
         res.status(200).json({
@@ -143,6 +184,7 @@ export const reviewSubmission = async (req, res) => {
             submission,
         });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: "Server error" });
     }
 };
@@ -154,13 +196,24 @@ export const reviewSubmission = async (req, res) => {
  */
 export const getAllSubmissions = async (req, res) => {
     try {
+        const page = Number(req.query.page) || 1;
+        const limit = 50;
+        const skip = (page - 1) * limit;
+
         const submissions = await Submission.find()
             .populate("studentId", "name email")
             .populate("assignmentId", "title subject")
-            .sort({ createdAt: -1 });
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
 
-        res.status(200).json(submissions);
+        res.status(200).json({
+            success: true,
+            message: "All submissions retrieved",
+            submissions,
+        });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: "Server error" });
     }
 };

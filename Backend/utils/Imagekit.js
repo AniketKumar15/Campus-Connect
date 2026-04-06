@@ -31,14 +31,23 @@ export const uploadOnImageKit = async (file) => {
 export const deleteOnImageKit = async (fileId) => {
     try {
         if (!fileId) {
-            throw new Error("ImageKit fileId missing");
+             return false;
+        }
+
+        // If a URL was passed instead of fileId, we cannot easily delete it
+        // since imagekit.files.delete strictly requires a file ID. 
+        // We'll gracefully ignore it to prevent 500 errors across the system.
+        if (fileId.startsWith("http")) {
+            console.log("Ignored ImageKit delete since URL was provided instead of fileId.");
+            return true;
         }
 
         await imagekit.files.delete(fileId);
         return true;
     } catch (error) {
         console.error("ImageKit delete error:", error);
-        throw error;
+        // Do not throw error to avoid 500 internal server errors blocking the DB deletion
+        return false;
     }
 };
 

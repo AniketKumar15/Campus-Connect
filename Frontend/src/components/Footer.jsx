@@ -15,19 +15,19 @@ const socials = [
 
 const Footer = () => {
     return (
-        <footer className="relative mt-32">
-            {/* Gradient Divider */}
-            <div className="h-px w-full bg-linear-to-r from-transparent via-sky-400/40 to-transparent" />
+        <footer className="relative z-10">
+            {/* Physical Shelf Divider */}
+            {/* <div className="h-2 w-full bg-slate-300 shadow-[inset_0_1px_3px_rgba(0,0,0,0.2),0_1px_0_rgba(255,255,255,0.8)]" /> */}
 
-            <div className="bg-white dark:bg-black">
+            <div className="bg-slate-200 border-top border-white/60 shadow-[inset_0_4px_10px_rgba(255,255,255,0.7),0_-4px_10px_rgba(0,0,0,0.05)]">
                 <div className="mx-auto max-w-7xl px-6 py-16 grid gap-12 md:grid-cols-3">
 
                     {/* Brand */}
                     <div>
-                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
+                        <h3 className="text-2xl font-extrabold text-slate-800 drop-shadow-sm">
                             Campus Connect
                         </h3>
-                        <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-white/70">
+                        <p className="mt-3 text-sm font-medium leading-relaxed text-slate-600">
                             A modern digital platform that connects students, faculty,
                             and institutions into one unified campus ecosystem.
                         </p>
@@ -35,14 +35,15 @@ const Footer = () => {
 
                     {/* Links */}
                     <div>
-                        <h4 className="text-sm font-semibold uppercase tracking-wide text-slate-900 dark:text-white">
+                        <h4 className="text-sm font-bold uppercase tracking-wide text-slate-800 drop-shadow-sm">
                             Platform
                         </h4>
-                        <ul className="mt-4 space-y-3 text-sm text-slate-600 dark:text-white/70">
+                        <div className="mt-3 h-[2px] w-8 bg-slate-300 rounded shadow-[inset_0_1px_1px_rgba(0,0,0,0.2)]"></div>
+                        <ul className="mt-4 space-y-3 text-sm font-medium text-slate-600">
                             {["Dashboard", "Features", "Events", "Resources"].map((item) => (
                                 <li
                                     key={item}
-                                    className="hover:text-sky-500 transition cursor-pointer"
+                                    className="hover:text-blue-600 transition cursor-pointer"
                                 >
                                     {item}
                                 </li>
@@ -52,19 +53,19 @@ const Footer = () => {
 
                     {/* Social */}
                     <div>
-                        <h4 className="text-sm font-semibold uppercase tracking-wide text-slate-900 dark:text-white">
+                        <h4 className="text-sm font-bold uppercase tracking-wide text-slate-800 drop-shadow-sm">
                             Connect
                         </h4>
-                        <div className="mt-4 flex gap-4">
+                        <div className="mt-3 h-[2px] w-8 bg-slate-300 rounded shadow-[inset_0_1px_1px_rgba(0,0,0,0.2)]"></div>
+                        <div className="mt-6 flex gap-4">
                             {socials.map(({ icon: Icon, link }, i) => (
                                 <motion.a
                                     key={i}
                                     href={link}
-                                    whileHover={{ y: -4, scale: 1.1 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="p-3 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-white hover:text-sky-500 dark:hover:text-sky-400 transition"
+                                    whileTap={{ scale: 0.95, y: 2 }}
+                                    className="p-3 rounded-xl bg-gradient-to-b from-slate-100 to-slate-300 text-slate-700 shadow-[0_5px_10px_rgba(0,0,0,0.1),inset_0_2px_0_rgba(255,255,255,0.8)] border-b-4 border-slate-400 active:border-b-0 hover:text-blue-600 transition-all flex items-center justify-center"
                                 >
-                                    <Icon size={18} />
+                                    <Icon size={20} />
                                 </motion.a>
                             ))}
                         </div>
@@ -72,15 +73,15 @@ const Footer = () => {
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="border-t border-black/10 dark:border-white/10">
-                    <div className="mx-auto max-w-7xl px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-600 dark:text-white/60">
+                <div className="border-t border-slate-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
+                    <div className="mx-auto max-w-7xl px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm font-medium text-slate-600">
                         <span>
                             © {new Date().getFullYear()} Campus Connect. All rights reserved.
                         </span>
 
                         <span>
                             Built with ❤️ by{" "}
-                            <span className="font-semibold text-slate-900 dark:text-white">
+                            <span className="font-bold text-slate-800 drop-shadow-sm">
                                 Aniket Kumar
                             </span>
                         </span>

@@ -25,41 +25,43 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     return (
         <aside
             className={`fixed md:static z-50 inset-y-0 left-0 w-72 flex flex-col
-        bg-white dark:bg-slate-900
-        border-r border-slate-200 dark:border-white/10
-        transform transition-transform duration-300
+        bg-slate-200 border-r-2 border-white shadow-[8px_0_20px_rgba(0,0,0,0.1),inset_-2px_0_6px_rgba(0,0,0,0.05)]
+        transform transition-transform duration-300 font-sans
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
         md:translate-x-0`}
         >
             {/* LOGO */}
-            <div className="flex items-center gap-3 px-6 py-6">
-                <img src={logo} alt="Campus Connect" className="w-10 h-10 rounded-md" />
+            <div className="flex items-center gap-4 px-6 py-8">
+                <div className="p-1.5 rounded-xl bg-slate-200 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1),0_2px_4px_rgba(255,255,255,0.8)] border-b-2 border-r-2 border-white">
+                    <img src={logo} alt="Campus Connect" className="w-10 h-10 object-contain" />
+                </div>
                 <div>
                     <h1
                         onClick={() => navigate("/")}
-                        className="font-bold tracking-wide cursor-pointer text-slate-800 dark:text-white"
+                        className="font-extrabold text-lg tracking-wide cursor-pointer text-slate-800 drop-shadow-sm leading-tight"
                     >
                         Campus Connect
                     </h1>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
-                        Study Mode
+                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">
+                        {roleConfig.label}
                     </p>
                 </div>
             </div>
 
-            <hr className="mb-4 w-[90%] mx-auto border-slate-200 dark:border-white/10" />
+            <div className="h-[3px] w-[85%] mx-auto bg-slate-300 rounded shadow-[inset_0_1px_2px_rgba(0,0,0,0.2),0_1px_0_rgba(255,255,255,0.9)] mb-6" />
+
             {/* MOBILE MENU */}
             <motion.button
-                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="md:hidden ml-2 absolute top-2 left-70 p-3 rounded-xl
-              text-slate-700 dark:text-white"
+                className="md:hidden ml-2 absolute top-6 left-[290px] p-2 rounded-xl
+              bg-slate-200 shadow-[2px_2px_6px_rgba(0,0,0,0.15),inset_2px_2px_4px_rgba(255,255,255,0.8)] border border-white text-slate-700 font-bold"
             >
                 {!sidebarOpen ? <IoIosArrowForward size={24} /> : <IoIosArrowBack size={24} />}
             </motion.button>
 
             {/* NAV */}
-            <nav className="flex-1 px-4 space-y-2 text-sm">
+            <nav className="flex-1 px-5 space-y-2 text-sm overflow-y-auto">
                 {roleConfig.nav.map((item, i) => {
                     /* EXPANDABLE MENU */
                     if (item.children) {
@@ -72,10 +74,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                         setOpenMenu(isOpen ? null : item.label)
                                     }
                                     className="flex items-center justify-between gap-3 px-4 py-3 rounded-xl
-                    cursor-pointer
-                    text-slate-600 dark:text-slate-400
-                    hover:text-slate-900 dark:hover:text-white
-                    hover:bg-slate-100 dark:hover:bg-white/10"
+                    cursor-pointer font-bold
+                    text-slate-600 transition-all
+                    hover:text-slate-800 hover:bg-slate-300 hover:shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]"
                                 >
                                     <div className="flex items-center gap-3">
                                         <span className="text-lg">
@@ -99,25 +100,27 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                         height: isOpen ? "auto" : 0,
                                         opacity: isOpen ? 1 : 0,
                                     }}
-                                    className="overflow-hidden ml-6 space-y-1"
+                                    className="overflow-hidden ml-6 space-y-2 mt-2 border-l-[3px] border-slate-300 shadow-[inset_2px_0_2px_rgba(0,0,0,0.05)] rounded-l"
                                 >
                                     {item.children.map((child, idx) => (
-                                        <NavLink key={idx} to={child.path} end>
-                                            {({ isActive }) => (
-                                                <div
-                                                    className={`flex items-center gap-3 px-4 py-2 rounded-lg text-sm
-                            ${isActive
-                                                            ? "bg-indigo-500/20 text-indigo-600 dark:text-white"
-                                                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white"
-                                                        }`}
-                                                >
-                                                    <span className="text-base">
-                                                        <child.icon />
-                                                    </span>
-                                                    {child.label}
-                                                </div>
-                                            )}
-                                        </NavLink>
+                                        <div className="pl-3 py-1" key={idx}>
+                                            <NavLink to={child.path} end>
+                                                {({ isActive }) => (
+                                                    <div
+                                                        className={`flex items-center gap-3 px-4 py-2 rounded-lg font-bold transition-all
+                                ${isActive
+                                                                ? "bg-gradient-to-br from-blue-500 to-blue-700 text-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)]"
+                                                                : "text-slate-600 hover:bg-slate-300 hover:text-slate-800 hover:shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]"
+                                                            }`}
+                                                    >
+                                                        <span className="text-base">
+                                                            <child.icon />
+                                                        </span>
+                                                        {child.label}
+                                                    </div>
+                                                )}
+                                            </NavLink>
+                                        </div>
                                     ))}
                                 </motion.div>
                             </div>
@@ -129,17 +132,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                         <NavLink key={i} to={item.path} end>
                             {({ isActive }) => (
                                 <motion.div
-                                    whileHover={{ x: 6 }}
-                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer
+                                    whileTap={{ scale: 0.98 }}
+                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer font-bold transition-all mb-2
                     ${isActive
-                                            ? "bg-indigo-500/20 text-indigo-600 dark:text-white"
-                                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white"
+                                            ? "bg-gradient-to-br from-blue-500 to-blue-700 text-white shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)]"
+                                            : "text-slate-600 hover:bg-slate-300 hover:text-slate-800 hover:shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]"
                                         }`}
                                 >
                                     <span className="text-lg">
                                         <item.icon />
                                     </span>
-                                    <span className="font-medium">{item.label}</span>
+                                    <span>{item.label}</span>
                                 </motion.div>
                             )}
                         </NavLink>
@@ -147,35 +150,37 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 })}
             </nav>
 
-            {/* USER */}
-            <div className="px-4 py-4 border-t border-slate-200 dark:border-white/10 flex justify-between items-center">
-                <div className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-white/10">
-                    <img
-                        src={user?.profileImage || "/avatar.png"}
-                        alt="User"
-                        className="w-10 h-10 rounded-full bg-white"
-                    />
-                    <div>
-                        <p className="text-sm font-semibold text-slate-800 dark:text-white">
-                            {user?.name || "Student"}
-                        </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 capitalize">
-                            {user?.role || "student"}
-                        </p>
+            {/* USER & THEME CONTROL */}
+            <div className="px-5 py-5 bg-slate-200 border-t border-slate-300 shadow-[0_-2px_6px_rgba(0,0,0,0.05),inset_0_2px_2px_rgba(255,255,255,0.8)]">
+                <div className="flex justify-between items-center gap-3">
+                    <div className="flex items-center gap-3 p-2 rounded-xl flex-1 bg-slate-100 border border-t-slate-400 border-l-slate-400 border-b-white border-r-white shadow-[inset_2px_2px_5px_rgba(0,0,0,0.1),0_1px_1px_rgba(255,255,255,0.8)] overflow-hidden">
+                        <img
+                            src={user?.profileImage || "/avatar.png"}
+                            alt="User"
+                            className="w-10 h-10 shrink-0 rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.2)] bg-slate-300"
+                        />
+                        <div className="overflow-hidden">
+                            <p className="text-sm font-bold text-slate-800 truncate leading-snug">
+                                {user?.name || "Student"}
+                            </p>
+                            <p className="text-[10px] uppercase tracking-wider font-extrabold text-blue-700 truncate mt-0.5">
+                                {user?.role || "student"}
+                            </p>
+                        </div>
                     </div>
-                </div>
 
-                {/* THEME TOGGLE */}
-                <button
-                    onClick={toggleTheme}
-                    className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/10"
-                >
-                    {isDark ? (
-                        <MdOutlineWbSunny className="text-yellow-400 text-xl" />
-                    ) : (
-                        <IoMoonOutline className="text-slate-700 text-xl" />
-                    )}
-                </button>
+                    {/* THEME TOGGLE BUTTON */}
+                    <button
+                        onClick={toggleTheme}
+                        className="p-3 shrink-0 rounded-xl bg-gradient-to-b from-slate-100 to-slate-300 text-slate-700 shadow-[0_3px_6px_rgba(0,0,0,0.1),inset_0_2px_0_rgba(255,255,255,0.8)] border-b-2 border-slate-400 active:border-b-0 active:translate-y-[2px] transition-all flex items-center justify-center"
+                    >
+                        {isDark ? (
+                            <MdOutlineWbSunny className="text-yellow-600 text-xl" />
+                        ) : (
+                            <IoMoonOutline className="text-slate-700 text-xl" />
+                        )}
+                    </button>
+                </div>
             </div>
         </aside>
     );

@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
             required: true
         },
         profileImage: {
-            type: String, // URL (Cloudinary / S3 / local)
+            type: String,
             default: ""
         }
     },
