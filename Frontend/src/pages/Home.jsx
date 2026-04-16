@@ -88,7 +88,7 @@ const Home = () => {
                     animate="visible"
                     variants={fadeUp}
                     transition={{ duration: 0.8 }}
-                    className="relative mx-auto max-w-6xl text-center h-screen"
+                    className="relative mx-auto max-w-6xl text-center h-screen mt-35"
                 >
                     <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-800 drop-shadow-sm">
                         A Unified Digital Platform for

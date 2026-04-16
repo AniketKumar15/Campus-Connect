@@ -8,7 +8,7 @@ import { FiChevronDown } from "react-icons/fi";
 import AuthContext from "../../contexts/AuthContext/AuthContext";
 import ThemeContext from "../../contexts/ThemeContext";
 import { DASHBOARD_CONFIG } from "./dashboardConfig";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo1.png";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
@@ -33,7 +33,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             {/* LOGO */}
             <div className="flex items-center gap-4 px-6 py-8">
                 <div className="p-1.5 rounded-xl bg-slate-200 shadow-[inset_0_2px_4px_rgba(0,0,0,0.1),0_2px_4px_rgba(255,255,255,0.8)] border-b-2 border-r-2 border-white">
-                    <img src={logo} alt="Campus Connect" className="w-10 h-10 object-contain" />
+                    <img src={logo} alt="Campus Connect" className="w-10 h-10 object-contain scale-150" />
                 </div>
                 <div>
                     <h1

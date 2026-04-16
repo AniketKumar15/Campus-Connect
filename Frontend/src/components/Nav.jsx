@@ -19,9 +19,7 @@ import logo from "../assets/Logo1.png";
 
 const links = [
     { name: "Home", icon: FiHome, to: "/" },
-    { name: "Events", icon: FiCalendar, to: "#events" },
     { name: "Campus Insights", icon: FiUsers, to: "/campus-insights" },
-    { name: "Discussion Chamber", icon: GoDiscussionClosed, to: "#discussion-Chamber" },
     { name: "Resources", icon: FiClipboard, to: "/resources" },
 ];
 
@@ -81,7 +79,7 @@ const Nav = () => {
                                 </Link>
                             ))}
                             {/* MORE DROPDOWN */}
-                            <div
+                            {/* <div
                                 className="relative"
                                 onClick={() => setMoreOpen(!moreOpen)}
                             >
@@ -96,7 +94,6 @@ const Nav = () => {
                                     <IoIosArrowDown className={`w-4 h-4 transition-transform ${moreOpen ? "rotate-180" : ""}`} />
                                 </button>
 
-                                {/* Dropdown menu */}
                                 {moreOpen && (
                                     <div className="absolute top-full mt-7 w-50 rounded-xl bg-slate-200 border-t border-l border-white shadow-[8px_12px_20px_rgba(0,0,0,0.15),inset_-2px_-2px_6px_rgba(0,0,0,0.05),inset_2px_2px_6px_rgba(255,255,255,0.8)] p-2">
                                         {links.slice(3).map(({ name, icon: Icon, to }) => (
@@ -112,7 +109,7 @@ const Nav = () => {
                                         ))}
                                     </div>
                                 )}
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Desktop Actions */}

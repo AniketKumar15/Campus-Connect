@@ -34,6 +34,7 @@ import AddCampusInsights from "./pages/DashboardPages/CampusInsights/AddCampusIn
 import EditCampusInsight from "./pages/DashboardPages/CampusInsights/EditCampusInsight";
 import MyInsights from "./pages/DashboardPages/CampusInsights/MyInsights"
 import InsightApproval from "./pages/InsightApproval";
+import NotFound from "./pages/NotFound";
 
 const AppRoutes = () => {
     const { user } = useContext(AuthContext);
@@ -44,49 +45,50 @@ const AppRoutes = () => {
                 <Toaster />
 
                 <AdminDashboardState>
-                <FacultyDashboardState>
-                <StudentDashboardState>
-                <Routes>
-                    {/* MAIN SITE (Navbar + Footer) */}
-                    <Route element={<MainLayout />}>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/resources" element={<PrivateRoute> <Resources /> </PrivateRoute>} />
-                        <Route path="/campus-insights" element={<CampusInsights />} />
-                    </Route>
+                    <FacultyDashboardState>
+                        <StudentDashboardState>
+                            <Routes>
+                                {/* MAIN SITE (Navbar + Footer) */}
+                                <Route element={<MainLayout />}>
+                                    <Route path="/" element={<Home />} />
+                                    <Route path="/resources" element={<PrivateRoute> <Resources /> </PrivateRoute>} />
+                                    <Route path="/campus-insights" element={<CampusInsights />} />
+                                </Route>
 
-                    {/* AUTH (No Navbar / Footer) */}
-                    <Route element={<AuthLayout />}>
-                        <Route path="/auth" element={<Auth />} />
-                        <Route path="/dashboard" element={<PrivateRoute>  <DashboardLayout /> </PrivateRoute>}>
-                            <Route index element={<Dashboard />} />
-                            <Route path="my-resources" element={<UserResources />} />
-                            <Route path="create-assignment" element={<CreateAssignment />} />
-                            <Route path="assignments" element={
-                                <>
-                                    {user?.role === "faculty" && <TeacherAllAssignment />}
-                                    {user?.role === "student" && <StudentAllAssigment />}
-                                </>
-                            } />
-                            <Route path="my-submission" element={<StudentSubmission />} />
-                            <Route path="add-insights" element={<AddCampusInsights />} />
-                            <Route path="edit-insight/:id" element={<EditCampusInsight />} />
-                            <Route path="insight-approval" element={<InsightApproval />} />
-                            <Route path="my-insights" element={<MyInsights />} />
-                            <Route path="profile" element={<Profile />} />
+                                {/* AUTH (No Navbar / Footer) */}
+                                <Route element={<AuthLayout />}>
+                                    <Route path="*" element={<NotFound />} />
+                                    <Route path="/auth" element={<Auth />} />
+                                    <Route path="/dashboard" element={<PrivateRoute>  <DashboardLayout /> </PrivateRoute>}>
+                                        <Route index element={<Dashboard />} />
+                                        <Route path="my-resources" element={<UserResources />} />
+                                        <Route path="create-assignment" element={<CreateAssignment />} />
+                                        <Route path="assignments" element={
+                                            <>
+                                                {user?.role === "faculty" && <TeacherAllAssignment />}
+                                                {user?.role === "student" && <StudentAllAssigment />}
+                                            </>
+                                        } />
+                                        <Route path="my-submission" element={<StudentSubmission />} />
+                                        <Route path="add-insights" element={<AddCampusInsights />} />
+                                        <Route path="edit-insight/:id" element={<EditCampusInsight />} />
+                                        <Route path="insight-approval" element={<InsightApproval />} />
+                                        <Route path="my-insights" element={<MyInsights />} />
+                                        <Route path="profile" element={<Profile />} />
 
-                            <Route path="all-user" element={<AllUsers />} />
-                            <Route path="all-assigment" element={<AllAssigmentAdmin />} />
-                            <Route path="all-submission" element={<AllSubmissionAdmin />} />
-                            <Route path="approval" element={<ApprovalPage />} />
-                        </Route>
-                    </Route>
-                    <Route path="/assignments/:id" element={<AssignmentDetails />} />
-                    <Route path="/submissions/:id" element={<AssigmentSubmission />} />
+                                        <Route path="all-user" element={<AllUsers />} />
+                                        <Route path="all-assigment" element={<AllAssigmentAdmin />} />
+                                        <Route path="all-submission" element={<AllSubmissionAdmin />} />
+                                        <Route path="approval" element={<ApprovalPage />} />
+                                    </Route>
+                                </Route>
+                                <Route path="/assignments/:id" element={<AssignmentDetails />} />
+                                <Route path="/submissions/:id" element={<AssigmentSubmission />} />
 
 
-                </Routes>
-                </StudentDashboardState>
-                </FacultyDashboardState>
+                            </Routes>
+                        </StudentDashboardState>
+                    </FacultyDashboardState>
                 </AdminDashboardState>
             </div>
         </>
