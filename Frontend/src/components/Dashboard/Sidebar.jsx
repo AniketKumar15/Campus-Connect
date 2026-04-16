@@ -8,7 +8,7 @@ import { FiChevronDown } from "react-icons/fi";
 import AuthContext from "../../contexts/AuthContext/AuthContext";
 import ThemeContext from "../../contexts/ThemeContext";
 import { DASHBOARD_CONFIG } from "./dashboardConfig";
-import logo from "../../assets/logo1.png";
+import logo from "../../assets/Logo1.png";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
